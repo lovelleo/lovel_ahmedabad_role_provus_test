@@ -12,11 +12,12 @@ public without sharing class editQuoteController {
         }
     }
     @AuraEnabled
-    public static Quote__c getQuote(String quoteId){
+    public static QuoteDto getQuote(String quoteId){
         system.debug('QuoteId-->'+quoteId);
         try {
-            Quote__c oQuote = [Select EndDate__c,StartDate__c,Name from Quote__c where Id =:quoteId];
-            return oQuote;
+            Quote__c oQuote = [Select Id, EndDate__c,StartDate__c from Quote__c where Id =:quoteId];
+            QuoteDto oQuoteDto = new QuoteDto(oQuote);
+            return oQuoteDto;
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage());
         }
